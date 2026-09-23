@@ -1,0 +1,68 @@
+{
+	"log": {
+		"level": "warn",
+		"output": "/var/log/sing-box/acess.log",
+		"timestamp": true
+	},
+	"inbounds": [
+		{
+			"tag": "mix",
+			"type": "mixed",
+			"listen": "127.0.0.1",
+			"listen_port": 10808
+		},
+
+		{
+			"tag": "mix2",
+			"type": "mixed",
+			"listen": "127.0.0.1",
+			"listen_port": 10809
+		}
+	
+	],
+	"outbounds": [
+		{
+			"type": "hysteria2",
+			"tag": "proxy",
+			"server": "",
+			"server_port": 80,
+			"up_mbps": 180,
+			"down_mbps": 180,
+			"password": "",
+			"tls": {
+				"enabled": true,
+				"server_name": "",
+				"certificate_public_key_sha256": [""]
+			}
+		},
+		{
+			"type": "tuic",
+			"tag": "proxy1",
+			"server": "",
+			"server_port": 443,
+			"uuid": "",
+			"password": "",
+			"udp_relay_mode": "quic",
+			"tls": {
+				"enabled": true,
+				"server_name": "",
+				"certificate_public_key_sha256": [""]
+			}
+		}
+	],
+	"route": {
+		"rules": [
+			{
+				"inbound": ["mix","mix2"],
+				"action": "sniff"
+			},
+			{
+				"inbound": ["mix","mix2"],
+				"action": "route",
+				"outbound": "proxy1"
+			}
+		]
+	}
+
+
+}

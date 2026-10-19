@@ -24,6 +24,7 @@ Signed-By: /etc/apt/keyrings/sagernet.asc
    sudo apt-get update &&
    sudo apt-get install sing-box nano
 }
+
 check_root_if_needed 
 intall_sing 
 
